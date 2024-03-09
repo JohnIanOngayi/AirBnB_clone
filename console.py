@@ -6,6 +6,8 @@ Module contains class HBNBCommand that runs the program's front end
 
 import cmd
 import sys
+import re
+import ast
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 from models.user import User
@@ -63,7 +65,7 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, line):
         """
         Creates an instance of BaseModel
-        
+
         Parameters:
         line (str): string that comes after command 'create'
         """
@@ -140,7 +142,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_count(self, line):
         """
-        Returns number of instances of said class 
+        Returns number of instances of said class
 
         Parameters:
         line (str): string contaning class
@@ -166,29 +168,53 @@ class HBNBCommand(cmd.Cmd):
         if len(line) == 0:
             print("** class name is missing **")
             return
-        args = line.split()
-        if len(args) >= 4:
-            key = "{}.{}".format(args[0], args[1])
-            cast = type(eval(args[3]))
-            arg3 = args[3]
-            arg3 = arg3.strip('"')
-            arg3 = arg3.strip("'")
-            if args[2] not in prohibited:
-                big_dict = storage.all()
-                setattr(big_dict[key], args[2], cast(arg3))
-                storage.save()
-        elif len(args) == 0:
-            print("** class name missing **")
-        elif args[0] not in HBNBCommand.CLS:
-            print("** class doesn't exist **")
-        elif len(args) == 1:
-            print("** instance id missing **")
-        elif ("{}.{}".format(args[0], args[1])) not in storage.all().keys():
-            print("** no instance found **")
-        elif len(args) == 2:
-            print("** attribute name missing **")
+        if '{' in line:
+            clas_id, _dict = line.split(',', 1)
+            clas, _id = clas_id.split()
+            _id = _id.strip()
+            _id = _id.strip('"')
+            _id = _id.strip("'")
+            clas = clas.strip()
+            if clas not in HBNBCommand.CLS:
+                print("** class doesn't exist **")
+                return
+            if ("{}.{}".format(clas, _id)) not in storage.all().keys():
+                print("** no instance found **")
+                return
+            dict_str = re.search('({.+})', _dict).group(0)
+            dict_ob = ast.literal_eval(dict_str)
+            if len(dict_ob) == 0 or dict_ob is None:
+                print("** attribute name missing **")
+            key = "{}.{}".format(clas, _id)
+            for item in dict_ob.keys():
+                if item not in prohibited:
+                    big_dict = storage.all()
+                    setattr(big_dict[key], item, dict_ob[item])
+                    storage.save()
         else:
-            print("** value missing **")
+            args = line.split()
+            if len(args) >= 4:
+                key = "{}.{}".format(args[0], args[1])
+                cast = type(eval(args[3]))
+                arg3 = args[3]
+                arg3 = arg3.strip('"')
+                arg3 = arg3.strip("'")
+                if args[2] not in prohibited:
+                    big_dict = storage.all()
+                    setattr(big_dict[key], args[2], cast(arg3))
+                    storage.save()
+            elif len(args) == 0:
+                print("** class name missing **")
+            elif args[0] not in HBNBCommand.CLS:
+                print("** class doesn't exist **")
+            elif len(args) == 1:
+                print("** instance id missing **")
+            elif "{}.{}".format(args[0], args[1]) not in storage.all().keys():
+                print("** no instance found **")
+            elif len(args) == 2:
+                print("** attribute name missing **")
+            else:
+                print("** value missing **")
 
 
 if __name__ == "__main__":

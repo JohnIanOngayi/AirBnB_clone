@@ -37,7 +37,7 @@ class BaseModel:
         """
         tformat = "%Y-%m-%dT%H:%M:%S.%f"
         if kwargs is not None and len(kwargs) != 0:
-            for k,v in kwargs.items():
+            for k, v in kwargs.items():
                 if k == "created_at" or k == "updated_at":
                     self.__dict__[k] = datetime.datetime.strptime(v, tformat)
                 else:
@@ -63,21 +63,14 @@ class BaseModel:
         self.updated_at = datetime.datetime.now()
         models.storage.save()
 
-
     def to_dict(self):
         """
         Returns dictionary for an instance
         """
-        obj_dict = dict()
-        obj_dict = self.__dict__
-        obj_dict["__class__"] = self.__class__.__name__
-        if type(self.created_at) is not str:
-            obj_dict["created_at"] = self.created_at.isoformat()
-        else:
-            obj_dict["created_at"] = self.created_at
-        obj_dict["id"] = self.id
-        if type(self.updated_at) is not str:
-            obj_dict["updated_at"] = self.updated_at.isoformat()
-        else:
-            obj_dict["updated_at"] = self.updated_at
-        return obj_dict
+        my_dict = dict(self.__dict__)
+        my_dict["__class__"] = self.__class__.__name__
+        my_dict["created_at"] = self.created_at.isoformat()
+        my_dict["id"] = self.id
+        my_dict["updated_at"] = self.updated_at.isoformat()
+
+        return my_dict

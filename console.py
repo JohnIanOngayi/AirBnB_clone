@@ -88,7 +88,6 @@ class HBNBCommand(cmd.Cmd):
         """
         if len(line) == 0:
             print("** class name is missing **")
-            return
         else:
             argu = line.split()
             if argu[0] in HBNBCommand.CLS:
@@ -175,16 +174,18 @@ class HBNBCommand(cmd.Cmd):
             _id = _id.strip('"')
             _id = _id.strip("'")
             clas = clas.strip()
+            print(_dict)
             if clas not in HBNBCommand.CLS:
                 print("** class doesn't exist **")
                 return
             if ("{}.{}".format(clas, _id)) not in storage.all().keys():
                 print("** no instance found **")
                 return
+            if str(_dict).strip() == "{}" or _dict is None:
+                print("** attribute name missing **")
+                return
             dict_str = re.search('({.+})', _dict).group(0)
             dict_ob = ast.literal_eval(dict_str)
-            if len(dict_ob) == 0 or dict_ob is None:
-                print("** attribute name missing **")
             key = "{}.{}".format(clas, _id)
             for item in dict_ob.keys():
                 if item not in prohibited:

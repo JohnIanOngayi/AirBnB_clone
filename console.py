@@ -208,9 +208,14 @@ class HBNBCommand(cmd.Cmd):
                 arg3 = arg3.strip()
                 arg3 = arg3.strip('"')
                 arg3 = arg3.strip("'")
-                cast = type(eval(arg3))
+                pattern = r'^[+-]?(?:0|[1-9](?:_?\d)*|0+(_?0)*)(?:\.\d+)?(?:[eE][+-]?\d+)?$'
+                match = re.match(pattern, arg3)
+                if match:
+                    arg3 = type(eval(arg3))(arg3)
+                else:
+                    pass
                 if str(arg[2]) not in prohibited:
-                    setattr(storage.all()[key], arg[2], cast(arg3))
+                    setattr(storage.all()[key], arg[2], (arg3))
                     storage.all()[key].save()
             elif len(arg) == 0:
                 print("** class name missing **")

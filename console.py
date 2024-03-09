@@ -193,26 +193,33 @@ class HBNBCommand(cmd.Cmd):
                     setattr(big_dict[key], item, dict_ob[item])
                     storage.save()
         else:
-            args = line.split()
-            if len(args) >= 4:
-                key = "{}.{}".format(args[0], args[1])
-                cast = type(eval(args[3]))
-                arg3 = args[3]
+            arg = line.split(' ')
+            if len(arg) >= 4:
+                arg[1] = arg[1].strip()
+                arg[1] = arg[1].strip(',')
+                arg[1] = arg[1].strip('"')
+                arg[1] = arg[1].strip("'")
+                arg[2] = arg[2].strip()
+                arg[2] = arg[2].strip(',')
+                arg[2] = arg[2].strip('"')
+                arg[2] = arg[2].strip("'")
+                key = "{}.{}".format(arg[0], arg[1])
+                arg3 = arg[3]
+                arg3 = arg3.strip()
                 arg3 = arg3.strip('"')
                 arg3 = arg3.strip("'")
-                if args[2] not in prohibited:
-                    big_dict = storage.all()
-                    setattr(big_dict[key], args[2], cast(arg3))
-                    storage.save()
-            elif len(args) == 0:
+                if str(arg[2]) not in prohibited:
+                    setattr(storage.all()[key], arg[2], arg3)
+                    storage.all()[key].save()
+            elif len(arg) == 0:
                 print("** class name missing **")
-            elif args[0] not in HBNBCommand.CLS:
+            elif arg[0] not in HBNBCommand.CLS:
                 print("** class doesn't exist **")
-            elif len(args) == 1:
+            elif len(arg) == 1:
                 print("** instance id missing **")
-            elif "{}.{}".format(args[0], args[1]) not in storage.all().keys():
+            elif ("{}.{}".format(arg[0], arg[1])) not in storage.all().keys():
                 print("** no instance found **")
-            elif len(args) == 2:
+            elif len(arg) == 2:
                 print("** attribute name missing **")
             else:
                 print("** value missing **")

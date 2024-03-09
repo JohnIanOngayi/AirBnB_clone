@@ -193,7 +193,7 @@ class HBNBCommand(cmd.Cmd):
                     setattr(big_dict[key], item, dict_ob[item])
                     storage.save()
         else:
-            arg = line.split(' ')
+            arg = line.split()
             if len(arg) >= 4:
                 arg[1] = arg[1].strip()
                 arg[1] = arg[1].strip(',')
@@ -208,8 +208,9 @@ class HBNBCommand(cmd.Cmd):
                 arg3 = arg3.strip()
                 arg3 = arg3.strip('"')
                 arg3 = arg3.strip("'")
+                cast = type(eval(arg3))
                 if str(arg[2]) not in prohibited:
-                    setattr(storage.all()[key], arg[2], arg3)
+                    setattr(storage.all()[key], arg[2], cast(arg3))
                     storage.all()[key].save()
             elif len(arg) == 0:
                 print("** class name missing **")

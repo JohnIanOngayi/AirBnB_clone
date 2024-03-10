@@ -25,21 +25,21 @@ from models import storage
 
 class TestConsole(unittest.TestCase):
     """
-    Class defines test cases for AirBnB console
+    Class Defines Test Cases For AirBnB Console
     """
 
     def setUp(self) -> None:
-        """Set up Method for Test Class"""
+        """Set Up Method For Test Class"""
         if os.path.exists(FileStorage._FileStorage__file_path):
             os.remove(FileStorage._FileStorage__file_path)
 
     def clean_it(self) -> None:
-        """Helper method that deletes instances within iterations"""
+        """Helper Method That Deletes Instances Within Iterations"""
         if os.path.exists(FileStorage._FileStorage__file_path):
             os.remove(FileStorage._FileStorage__file_path)
 
     def test_help(self) -> None:
-        """Testing help command"""
+        """Testing Help Command"""
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("help quit")
             captured_out = f.getvalue()
@@ -53,7 +53,7 @@ class TestConsole(unittest.TestCase):
             self.assertEqual(expected, captured_out)
 
     def test_do_create(self) -> None:
-        """Testing the create methods"""
+        """Testing The Create Methods"""
         for _ in HBNBCommand.CLS:
             _class = eval(_)
             with patch('sys.stdout', new=StringIO()) as f:
@@ -83,7 +83,7 @@ class TestConsole(unittest.TestCase):
                 self.clean_it()
 
     def test_do_create_error(self) -> None:
-        """Test them create errors"""
+        """Test Them Create Errors"""
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("create")
             captured_out = f.getvalue()
@@ -97,7 +97,7 @@ class TestConsole(unittest.TestCase):
             self.assertEqual(captured_out[:-1], expected)
 
     def test_do_show_errors(self) -> None:
-        """Test show method errors"""
+        """Test Show Method Errors"""
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("show")
             captured_out = f.getvalue()
@@ -109,6 +109,29 @@ class TestConsole(unittest.TestCase):
             captured_out = f.getvalue()
             expected = "** class doesn't exist **"
             self.assertEqual(captured_out[:-1], expected)
+
+    def test_do_destroy(self) -> None:
+        """Test Destroy Method"""
+        for _ in HBNBCommand.CLS:
+            _class = eval(_)
+            with patch('sys.stdout', new=StringIO()) as e:
+                HBNBCommand().onecmd("create {}".format(_class))
+                captured_out = e.getvalue()
+            _id = captured_out[:-1]
+
+            with patch('sys.stdout', new=StringIO()) as f:
+                HBNBCommand().onecmd("show {} {}".format(_class, _id))
+                before = f.getvalue()
+                self.assertTrue(_id in before)
+
+            with patch('sys.stdout', new=StringIO()) as g:
+                HBNBCommand().onecmd("destroy {} {}".format(_class, _id))
+
+            storage.reload()
+            with patch('sys.stdout', new=StringIO()) as h:
+                HBNBCommand().onecmd("show {} {}".format(_class, _id))
+                after = h.getvalue()
+                self.assertFalse(_id in after)
 
 
 if __name__ == "__main__":

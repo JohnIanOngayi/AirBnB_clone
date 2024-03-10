@@ -120,14 +120,21 @@ class HBNBCommand(cmd.Cmd):
         line (str): string after command contaning the class name
         """
         _all = list()
-        if line in HBNBCommand.CLS:
-            for k, v in storage.all().items():
-                _class, _id = k.split('.')
-                if _class == line:
-                    _all.append(v.__str__())
+
+        if line == "":
+            for v in storage.all().values():
+                _all.append(v.__str__())
             print(f"{_all}")
+
         else:
-            print("** class doesn't exist **")
+            if line in HBNBCommand.CLS:
+                for k, v in storage.all().items():
+                    _class, _id = k.split('.')
+                    if _class == line:
+                        _all.append(v.__str__())
+                print(f"{_all}")
+            else:
+                print("** class doesn't exist **")
 
     def do_count(self, line):
         """Returns number of instances of said class

@@ -49,7 +49,11 @@ class HBNBCommand(cmd.Cmd):
                 print("** Invalid syntax: Class or method missing **")
         return cmd.Cmd.precmd(self, line)
 
-    def do_quit(self):
+    def emptyline(self) -> None:
+        """Overriding emptyline method to do nothing"""
+        pass
+
+    def do_quit(self, line):
         """Quit command to exit the program
         """
         return True
@@ -167,7 +171,6 @@ class HBNBCommand(cmd.Cmd):
             _id = _id.strip('"')
             _id = _id.strip("'")
             clas = clas.strip()
-            print(_dict)
             if clas not in HBNBCommand.CLS:
                 print("** class doesn't exist **")
                 return
@@ -201,7 +204,11 @@ class HBNBCommand(cmd.Cmd):
                 arg3 = arg3.strip()
                 arg3 = arg3.strip('"')
                 arg3 = arg3.strip("'")
-                pattern = r'^[+-]?(?:0|[1-9](?:_?\d)*|0+(_?0)*)(?:\.\d+)?(?:[eE][+-]?\d+)?$'
+                pattern = (
+                    r'^[+-]?(?:0|[1-9](?:_?\d)*|0+(_?0)*)'
+                    r'(?:\.\d+)?'
+                    r'(?:[eE][+-]?\d+)?$'
+                )
                 match = re.match(pattern, arg3)
                 if match:
                     arg3 = type(eval(arg3))(arg3)

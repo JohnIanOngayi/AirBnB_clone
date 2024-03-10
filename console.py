@@ -81,7 +81,7 @@ class HBNBCommand(cmd.Cmd):
         line (str): string after command that contains class and id
         """
         if len(line) == 0:
-            print("** class name is missing **")
+            print("** class name missing **")
         else:
             argu = line.split()
             if argu[0] in HBNBCommand.CLS:
@@ -101,7 +101,7 @@ class HBNBCommand(cmd.Cmd):
         """
         argu = line.split()
         if len(line) == 0:
-            print("** class name is missing **")
+            print("** class name missing **")
         else:
             if argu[0] in HBNBCommand.CLS:
                 if len(argu) < 2:
@@ -151,7 +151,7 @@ class HBNBCommand(cmd.Cmd):
         """
         prohibited = ["id", "created_at", "updated_at"]
         if len(line) == 0:
-            print("** class name is missing **")
+            print("** class name missing **")
             return
         if '{' in line:
             clas_id, _dict = line.split(',', 1)

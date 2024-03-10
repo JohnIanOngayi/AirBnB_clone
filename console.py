@@ -50,22 +50,18 @@ class HBNBCommand(cmd.Cmd):
         return cmd.Cmd.precmd(self, line)
 
     def do_quit(self):
-        """
-        Quits the Console
+        """Quit command to exit the program
         """
         return True
 
     def do_EOF(self, line):
-        """
-        Quits the Console
+        """Quits the Console
         """
         print("")
         return True
 
     def do_create(self, line):
-        """
-        Creates an instance of BaseModel
-
+        """Creates an instance of BaseModel
         Parameters:
         line (str): string that comes after command 'create'
         """
@@ -80,9 +76,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
 
     def do_show(self, line):
-        """
-        Prints str representation of an instance
-
+        """Prints str representation of an instance
         Parameters:
         line (str): string after command that contains class and id
         """
@@ -101,9 +95,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
 
     def do_destroy(self, line):
-        """
-        Deletes instance based on class name and id
-
+        """Deletes instance based on class name and id
         Parameters:
         line (str): string after command that contains class and id
         """
@@ -123,9 +115,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
 
     def do_all(self, line):
-        """
-        Prints string representations of all istances of a class
-
+        """Prints string representations of all istances of a class
         Parameters:
         line (str): string after command contaning the class name
         """
@@ -140,9 +130,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
     def do_count(self, line):
-        """
-        Returns number of instances of said class
-
+        """Returns number of instances of said class
         Parameters:
         line (str): string contaning class
         """
@@ -157,9 +145,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
     def do_update(self, line):
-        """
-        Updates an instance based on class name and id
-
+        """Updates an instance based on class name and id
         Parameters:
         line (str): contains the object, attribute and id
         """
@@ -231,5 +217,5 @@ class HBNBCommand(cmd.Cmd):
                 print("** value missing **")
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     HBNBCommand().cmdloop()

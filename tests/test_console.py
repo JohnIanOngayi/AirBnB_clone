@@ -4,7 +4,6 @@
 Module Contains unittest Test Cases For The Console
 """
 
-from ast import Str
 import sys
 import unittest
 import os
@@ -124,14 +123,45 @@ class TestConsole(unittest.TestCase):
                 before = f.getvalue()
                 self.assertTrue(_id in before)
 
-            with patch('sys.stdout', new=StringIO()) as g:
-                HBNBCommand().onecmd("destroy {} {}".format(_class, _id))
+    def test_do_destroy_error(self) -> None:
+        """Test Destroy Method Errors"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("destroy")
+            captured_out = f.getvalue()
+            expected = "** class name missing **"
+            self.assertEqual(captured_out[:-1], expected)
 
-            storage.reload()
-            with patch('sys.stdout', new=StringIO()) as h:
-                HBNBCommand().onecmd("show {} {}".format(_class, _id))
-                after = h.getvalue()
-                self.assertFalse(_id in after)
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("destroy bundas")
+            captured_out = f.getvalue()
+            expected = "** class doesn't exist **"
+            self.assertEqual(captured_out[:-1], expected)
+
+            with patch('sys.stdout', new=StringIO()) as f:
+                HBNBCommand().onecmd("destroy User 256666")
+                captured_out = f.getvalue()
+                expected = "** no instance found **"
+                self.assertEqual(captured_out[:-1], expected)
+
+    def test_do_update_error(self) -> None:
+        """Test Update Method Errors"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("update")
+            captured_out = f.getvalue()
+            expected = "** class name missing **"
+            self.assertEqual(captured_out[:-1], expected)
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("update bundas")
+            captured_out = f.getvalue()
+            expected = "** class doesn't exist **"
+            self.assertEqual(captured_out[:-1], expected)
+
+            with patch('sys.stdout', new=StringIO()) as f:
+                HBNBCommand().onecmd("update User 256666")
+                captured_out = f.getvalue()
+                expected = "** no instance found **"
+                self.assertEqual(captured_out[:-1], expected)
 
 
 if __name__ == "__main__":

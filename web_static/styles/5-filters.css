@@ -1,0 +1,79 @@
+.filters {
+        color: white;
+        height: 70px;
+        width: 100%;
+        border: 1px solid #DDDDDD;
+        border-radius: 4px;
+        display: flex;
+        justify-content: right;
+        align-content: center;
+}
+
+.filters button {
+        font-size: 10px;
+        background-color: #FF5A5F;
+        color: #FFFFFF;
+        height: 48px;
+        width: 20%;
+        border: 0;
+        border-radius: 4px;
+        align-self: center;
+        margin-right: 30px;
+        cursor: pointer;
+}
+
+.filters button:hover {
+        opacity: 90%;
+}
+
+.locations {
+        color: black;
+        height: 100%;
+        width: 25%;
+        display: flex;
+        border-right: 1px solid #DDDDDD;
+        flex-direction: column;
+        justify-content: center;
+}
+
+.amenities {
+        color: black;
+        height: 100%;
+        width: 25%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-right: auto;
+}
+
+.locations h3 {
+        font-weight: 600;
+        text-align: center;
+        position: absolute;
+        margin-top: auto;
+}
+
+.amenities h3 {
+        font-weight: 600;
+        text-align: center;
+        border: 1px solid green;
+        position: absolute;
+        margin-top: auto;
+}
+
+.locations h4 {
+        font-weight: 400;
+        font-size: 14px;
+        text-align: center;
+        position: absolute;
+        margin-bottom: auto;
+}
+
+.amenities h4 {
+        font-weight: 400;
+        font-size: 14px;
+        text-align: center;
+        border: 1px solid green;
+        position: absolute;
+        margin-bottom: auto;
+}

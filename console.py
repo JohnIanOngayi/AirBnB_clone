@@ -8,6 +8,7 @@ import cmd
 import sys
 import re
 import ast
+import datetime
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 from models.user import User
@@ -160,7 +161,21 @@ class HBNBCommand(cmd.Cmd):
         Parameters:
         line (str): contains the object, attribute and id
         """
+
         prohibited = ["id", "created_at", "updated_at"]
+        d = dict()#For class attributes validation
+        d = {
+            "BaseModel": ["id", "created_at", "updated_at"],
+            "User": ["email", "password", "first_name", "last_name"],
+            "State": ["name"],
+            "Amenity": ["name"],
+            "City": ["state_id", "name"],
+            "Place": ["city_id", "user_id", "name", "description",
+                      "number_rooms", "number_bathrooms", "max_guest",
+                      "price_by_night", "latitude", "longitude",
+                      "amenity_ids"],
+            "Review": ["place_id", "user_id", "text"]
+        }
         if len(line) == 0:
             print("** class name missing **")
             return
@@ -184,7 +199,7 @@ class HBNBCommand(cmd.Cmd):
             dict_ob = ast.literal_eval(dict_str)
             key = "{}.{}".format(clas, _id)
             for item in dict_ob.keys():
-                if item not in prohibited:
+                if item not in prohibited and item in d[clas]:
                     big_dict = storage.all()
                     setattr(big_dict[key], item, dict_ob[item])
                     storage.save()
@@ -214,7 +229,7 @@ class HBNBCommand(cmd.Cmd):
                     arg3 = type(eval(arg3))(arg3)
                 else:
                     pass
-                if str(arg[2]) not in prohibited:
+                if str(arg[2]) not in prohibited and str(arg[2]) in d[arg[0]]:
                     setattr(storage.all()[key], arg[2], (arg3))
                     storage.all()[key].save()
             elif len(arg) == 0:

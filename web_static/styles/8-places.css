@@ -1,6 +1,6 @@
 .places {
         display: flex;
-        justify-content: center;
+        justify-content: space-around;
         align-content: center;
         flex-wrap: wrap;
         box-sizing: border-box;
@@ -51,39 +51,23 @@
         border-bottom: 1px solid #DDDDDD;
 }
 
-.information .max_guest {
+.information .max_guest,
+.information .number_rooms,
+.information .number_bathrooms {
         width: 100px;
         color: red;
         background-image: url("../images/icon_group.png");
         background-repeat: no-repeat;
+        background-size: 40px 40px;
         margin-left: 10px;
         margin-right: 10px;
 }
 
-.information .number_rooms {
-        width: 100px;
-        color: red;
-        background-image: url("../images/icon_bed.png");
-        background-repeat: no-repeat;
-        margin-left: 10px;
-        margin-right: 10px;
-        display: flex;
-        flex-direction: column;
+.max_guest p,
+.number_rooms p,
+.number_bathrooms p {
+        color: black;
         position: relative;
-        align-content: center;
-        justify-content: center;
-}
-
-.information .number_rooms p {
-        position: absolute;
-        top: 100%;
-}
-
-.information .number_bathrooms {
-        width: 100px;
-        color: red;
-        background-image: url("../images/icon_bath.png");
-        background-repeat: no-repeat;
-        margin-left: 10px;
-        margin-right: 10px;
+        top: 25px;
+        text-align: left;
 }
